@@ -15,6 +15,7 @@ public class InputReader : ScriptableObject
     public event UnityAction InteractEvent;
     public event UnityAction AttackEvent;
     public event UnityAction EscapeEvent;
+    public event UnityAction<Vector2> ScrollEvent;
 
     private InputAction _moveAction;
     private InputAction _lookAction;
@@ -23,6 +24,7 @@ public class InputReader : ScriptableObject
     private InputAction _interactionAction;
     private InputAction _attackAction;
     private InputAction _escapeAction;
+    private InputAction _scrollAction;
 
     public bool IsAttacking = false;
     public bool IsSprinting = false;
@@ -35,6 +37,7 @@ public class InputReader : ScriptableObject
         _lookAction = _asset.FindAction("Look");
         _sprintAction = _asset.FindAction("Sprint");
         _jumpAction = _asset.FindAction("Jump");
+        _scrollAction = _asset.FindAction("ScrollWheel");
 
         _moveAction.started += OnMove;
         _moveAction.performed += OnMove;
@@ -57,6 +60,8 @@ public class InputReader : ScriptableObject
         _attackAction.performed += OnAttack;
         _attackAction.canceled += OnAttack;
 
+        _scrollAction.performed += OnScroll;
+
 
         _attackAction.Enable();
         _interactionAction.Enable();
@@ -64,6 +69,7 @@ public class InputReader : ScriptableObject
         _lookAction.Enable();
         _sprintAction.Enable();
         _jumpAction.Enable();
+        _scrollAction.Enable();
     }
 
     private void OnDisable()
@@ -89,6 +95,8 @@ public class InputReader : ScriptableObject
         _attackAction.performed -= OnAttack;
         _attackAction.canceled -= OnAttack;
 
+        _scrollAction.performed -= OnScroll;
+
 
         _attackAction.Disable();
         _interactionAction.Disable();
@@ -96,6 +104,7 @@ public class InputReader : ScriptableObject
         _lookAction.Disable();
         _sprintAction.Disable();
         _jumpAction.Disable();
+        _scrollAction.Disable();
     }
 
 
@@ -136,5 +145,12 @@ public class InputReader : ScriptableObject
     private void OnJump(InputAction.CallbackContext context)
     {
         JumpEvent?.Invoke(context);
+    }
+
+    private void OnScroll(InputAction.CallbackContext context)
+    {
+        Vector2 scrollDir = context.ReadValue<Vector2>();
+        if (scrollDir == Vector2.zero) return;
+        ScrollEvent?.Invoke(scrollDir);        
     }
 }

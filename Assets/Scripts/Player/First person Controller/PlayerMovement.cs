@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.linearDamping = 0;
         }
-
+        SpeedControl();
     }
 
     private void SetMoveDirection(Vector2 inputDir)
@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
 
-        SpeedControl();
+        
     }
 
     private void SpeedControl()

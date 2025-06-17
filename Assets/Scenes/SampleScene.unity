@@ -1424,6 +1424,7 @@ GameObject:
   - component: {fileID: 668392307}
   - component: {fileID: 668392308}
   - component: {fileID: 668392309}
+  - component: {fileID: 668392310}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1516,7 +1517,7 @@ MonoBehaviour:
   _sprintSpeed: 12
   _groundDrag: 5
   _jumpForce: 6
-  _airMultiplier: 0.4
+  _airMultiplier: 0.2
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -1534,6 +1535,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerHealth: {fileID: 11400000, guid: 144ae013e70c8e644b28329b24142f77, type: 2}
+--- !u!114 &668392310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668392303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9240f826344634cb163d2ae2d77971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllAttacks:
+  - {fileID: 11400000, guid: 8177c06131a9f454fbe30f6a463b4526, type: 2}
+  - {fileID: 11400000, guid: fbe5aa65ee6695748aa2511bb92730dd, type: 2}
+  - {fileID: 11400000, guid: 98bd2eba47c44934ca3cc41881cb807a, type: 2}
+  _reader: {fileID: 11400000, guid: c5f053623acb7334caa754516ef2e728, type: 2}
 --- !u!1 &700768863
 GameObject:
   m_ObjectHideFlags: 0
