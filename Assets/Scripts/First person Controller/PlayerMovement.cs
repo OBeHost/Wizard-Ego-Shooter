@@ -6,20 +6,26 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private InputReader _reader;
 
     [Header("Movement")]
-    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _normalSpeed;
+    [SerializeField] private float _sprintSpeed;
+    private float _moveSpeed;
+
     [SerializeField] private float _groundDrag;
 
     [SerializeField] private float _jumpForce;
-    [SerializeField] private float _jumpCoolDown;
     [SerializeField] private float _airMultiplier;
+
     private bool _readyToJump = true;
-    private bool _isJumping = false;
+    private bool _jumpIsPressed = false;
+    private bool _isSprinting = false;
 
 
     [Header("Ground Check")]
-    [SerializeField] private float _playerHeight;
     [SerializeField] private LayerMask _groundLayerMask;
+    private float _playerHeight;
+    private bool _grounded;
 
+    //Stores flat direction in which to walk
     [SerializeField] private Transform _orientation;
 
     private float _xInput;
@@ -29,28 +35,31 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody _rb;
 
-    private bool _grounded;
     private void OnEnable()
     {
         _reader.MoveEvent += SetMoveDirection;
         _reader.JumpEvent += SetJump;
+        _reader.SprintEvent += SetSprint;
     }
 
     private void OnDisable()
     {
         _reader.MoveEvent -= SetMoveDirection;
         _reader.JumpEvent -= SetJump;
+        _reader.SprintEvent -= SetSprint;
     }
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true;
+
+        _playerHeight = this.transform.localScale.y;
     }
 
     private void FixedUpdate()
     {
-        if (_isJumping)
+        if (_jumpIsPressed)
         {
             Jump();
         }
@@ -59,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _grounded = Physics.Raycast(this.transform.position, Vector3.down, _playerHeight * 0.5f + 0.2f, _groundLayerMask);
+        _grounded = Physics.Raycast(this.transform.position, Vector3.down, _playerHeight * 0.5f + 1f, _groundLayerMask);
 
         if (_grounded)
         {
@@ -80,6 +89,8 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         _moveDir = _orientation.forward * _yInput + _orientation.right * _xInput;
+
+        _moveSpeed = _isSprinting ? _sprintSpeed : _normalSpeed;
 
         switch (_grounded)
         {
@@ -105,10 +116,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    #region Event Subscriptions
+    private void SetSprint(InputAction.CallbackContext context)
+    {
+        _isSprinting = context.action.IsPressed();
+    }
     private void SetJump(InputAction.CallbackContext context)
     {
-        _isJumping = context.action.IsPressed();
+        _jumpIsPressed = context.action.IsPressed();
     }
+    #endregion
 
     private void Jump()
     {
@@ -119,11 +136,6 @@ public class PlayerMovement : MonoBehaviour
         _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
         _rb.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
 
-        Invoke(nameof(ResetJump), _jumpCoolDown);
-    }
-
-    private void ResetJump()
-    {
         _readyToJump = true;
     }
 }

@@ -11,6 +11,7 @@ public class InputReader : ScriptableObject
     public event UnityAction<Vector2> MoveEvent;
     public event UnityAction<Vector2> LookEvent;
     public event UnityAction<InputAction.CallbackContext> JumpEvent;
+    public event UnityAction<InputAction.CallbackContext> SprintEvent;
     public event UnityAction InteractEvent;
     public event UnityAction AttackEvent;
     public event UnityAction EscapeEvent;
@@ -129,13 +130,7 @@ public class InputReader : ScriptableObject
 
     private void OnSprint(InputAction.CallbackContext context)
     {
-        if (context.action.IsPressed())
-        {
-            IsSprinting = true;
-        } else
-        {
-            IsSprinting = false;
-        }
+        SprintEvent?.Invoke(context);
     }
 
     private void OnJump(InputAction.CallbackContext context)
