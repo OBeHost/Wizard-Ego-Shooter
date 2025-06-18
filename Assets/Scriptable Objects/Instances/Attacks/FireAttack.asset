@@ -12,5 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12dab23d13b2a51438cb8eb0d1971f94, type: 3}
   m_Name: FireAttack
   m_EditorClassIdentifier: 
+  _attack: {fileID: 1029002170064078654, guid: 18148fc41ddb89a419b38e2c422ded18, type: 3}
+  _healthDamage: 5
+  _instantDamage: 1
+  _healthDamageDuration: 0
+  _doesSpeedDamage: 0
+  _speedDamage: 0
+  _speedDamageDuration: 0
+  _useGravity: 0
   AttackName: FireAttack
-  unlocked: 0

@@ -75,8 +75,6 @@ public class InputReader : ScriptableObject
         _interactionAction.started += OnInteract;
 
         _attackAction.started += OnAttack;
-        _attackAction.performed += OnAttack;
-        _attackAction.canceled += OnAttack;
 
         _scrollAction.performed += OnScroll;
 
@@ -121,8 +119,6 @@ public class InputReader : ScriptableObject
         _interactionAction.started -= OnInteract;
 
         _attackAction.started -= OnAttack;
-        _attackAction.performed -= OnAttack;
-        _attackAction.canceled -= OnAttack;
 
         _scrollAction.performed -= OnScroll;
 

@@ -88,14 +88,12 @@ public class CurrentAttackHolderSO : ScriptableObject
     {
         if (_allAttacksQueue.Count == 0) return;
 
+        //Add the attack to the linked list for scrolling
         LinkedListNode<AttackSO> newNode = new LinkedListNode<AttackSO>(_allAttacksQueue.Dequeue());
         _attacksList.AddLast(newNode);
+
+        //Add the attack to the dictionary for key access
         _maxIndex++;
         _attacksDict[_maxIndex] = newNode;
-
-        foreach (var attack in _attacksList)
-        {
-            Debug.Log($"Attack: {attack}");
-        }
     }
 }
