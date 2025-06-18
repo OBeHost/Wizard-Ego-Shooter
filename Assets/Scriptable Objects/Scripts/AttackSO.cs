@@ -4,8 +4,10 @@ using UnityEngine;
 public class AttackSO : ScriptableObject
 {
     public string AttackName;
-
-    public bool unlocked;
+    public AttackSO()
+    {
+        AttackName = "";
+    }
 
     public void TriggerAttack()
     {

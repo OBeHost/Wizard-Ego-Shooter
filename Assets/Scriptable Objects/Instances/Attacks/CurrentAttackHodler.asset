@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee95a74c2d07aef47915fae1eafac2dc, type: 3}
+  m_Name: CurrentAttackHodler
+  m_EditorClassIdentifier: 
+  _reader: {fileID: 11400000, guid: c5f053623acb7334caa754516ef2e728, type: 2}
+  AllAttacks:
+  - {fileID: 11400000, guid: 8177c06131a9f454fbe30f6a463b4526, type: 2}
+  - {fileID: 11400000, guid: fbe5aa65ee6695748aa2511bb92730dd, type: 2}
+  - {fileID: 11400000, guid: 98bd2eba47c44934ca3cc41881cb807a, type: 2}

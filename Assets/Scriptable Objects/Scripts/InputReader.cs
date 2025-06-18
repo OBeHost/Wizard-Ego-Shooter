@@ -17,6 +17,10 @@ public class InputReader : ScriptableObject
     public event UnityAction EscapeEvent;
     public event UnityAction<Vector2> ScrollEvent;
 
+    //---------------------
+    public event UnityAction UnlockEvent;
+    //---------------------------------
+
     private InputAction _moveAction;
     private InputAction _lookAction;
     private InputAction _sprintAction;
@@ -25,6 +29,10 @@ public class InputReader : ScriptableObject
     private InputAction _attackAction;
     private InputAction _escapeAction;
     private InputAction _scrollAction;
+
+    //Only for testing unlock attack
+    private InputAction _unlockAction;
+    //-----------------------------
 
     public bool IsAttacking = false;
     public bool IsSprinting = false;
@@ -38,6 +46,13 @@ public class InputReader : ScriptableObject
         _sprintAction = _asset.FindAction("Sprint");
         _jumpAction = _asset.FindAction("Jump");
         _scrollAction = _asset.FindAction("ScrollWheel");
+
+        //-----------------------------
+        _unlockAction = _asset.FindAction("UnlockAttack");
+        _unlockAction.started += OnUnlock;
+        
+        //------------------------------
+
 
         _moveAction.started += OnMove;
         _moveAction.performed += OnMove;
@@ -70,10 +85,18 @@ public class InputReader : ScriptableObject
         _sprintAction.Enable();
         _jumpAction.Enable();
         _scrollAction.Enable();
+
+        //----------
+        _unlockAction.Enable();
+        //------------
     }
 
     private void OnDisable()
     {
+        //-----------------
+        _unlockAction.started -= OnUnlock;
+        //---------------------
+
         _moveAction.started -= OnMove;
         _moveAction.performed -= OnMove;
         _moveAction.canceled -= OnMove;
@@ -105,6 +128,10 @@ public class InputReader : ScriptableObject
         _sprintAction.Disable();
         _jumpAction.Disable();
         _scrollAction.Disable();
+
+        //----------
+        _unlockAction.Disable();
+        //-----------------
     }
 
 
@@ -153,4 +180,11 @@ public class InputReader : ScriptableObject
         if (scrollDir == Vector2.zero) return;
         ScrollEvent?.Invoke(scrollDir);        
     }
+
+    //----------------------------
+    private void OnUnlock(InputAction.CallbackContext context)
+    {
+        UnlockEvent?.Invoke();
+    }
+    //--------------------------
 }

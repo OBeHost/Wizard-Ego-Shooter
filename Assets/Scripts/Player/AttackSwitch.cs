@@ -5,16 +5,10 @@ using UnityEngine.InputSystem;
 
 public class AttackSwitch : MonoBehaviour
 {
-    public AttackSO[] AllAttacks;
-    private AttackSO[] _availableAttacks;
-
     [SerializeField] private InputReader _reader;
+    [SerializeField] private CurrentAttackHolderSO _attackHolder;
 
-    private LinkedList<int> ints = new LinkedList<int>();
-
-    private LinkedListNode<int> _currentNode = null;
-    private int _currentIndex = 0;
-
+    private LinkedListNode<AttackSO> _currentNode;
     private void OnEnable()
     {
         _reader.ScrollEvent += SwitchActive;
@@ -27,27 +21,23 @@ public class AttackSwitch : MonoBehaviour
 
     private void Start()
     {
-        _availableAttacks = new AttackSO[AllAttacks.Length];
-
-        for (int i = 0; i < AllAttacks.Length; i++)
-        {
-            ints.AddLast(i);
-        }
-        _currentNode = ints.First;
+        
+        //Initialize current node
+        _currentNode = new LinkedListNode<AttackSO>(_attackHolder.CurrentAttack);
     }
 
     private void SwitchActive(Vector2 vec)
     {
+        //Check if user scrolls up or down and switch current node to prev / next 
         switch (Mathf.Sign(vec.y))
         {
             case -1:
-                _currentNode = _currentNode.Previous != null ? _currentNode.Previous : ints.Last;
+                _currentNode = _attackHolder.CurrentNode.Previous != null ? _attackHolder.CurrentNode.Previous : _attackHolder.AttacksList.Last;
                 break;
             case 1:
-                _currentNode = _currentNode.Next != null ? _currentNode.Next : ints.First;
+                _currentNode = _attackHolder.CurrentNode.Next != null ? _attackHolder.CurrentNode.Next : _attackHolder.AttacksList.First;
                 break;
         }
-        _currentIndex = _currentNode.Value;
-        Debug.Log($"Current Index: {_currentIndex}");
+        _attackHolder.SetCurrentAttack(_currentNode);
     }
 }
