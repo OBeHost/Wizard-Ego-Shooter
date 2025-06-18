@@ -16,6 +16,7 @@ public class InputReader : ScriptableObject
     public event UnityAction AttackEvent;
     public event UnityAction EscapeEvent;
     public event UnityAction<Vector2> ScrollEvent;
+    public event UnityAction<int> KeySwitchEvent;
 
     //---------------------
     public event UnityAction UnlockEvent;
@@ -29,6 +30,7 @@ public class InputReader : ScriptableObject
     private InputAction _attackAction;
     private InputAction _escapeAction;
     private InputAction _scrollAction;
+    private InputAction _keySwitchAction;
 
     //Only for testing unlock attack
     private InputAction _unlockAction;
@@ -46,6 +48,7 @@ public class InputReader : ScriptableObject
         _sprintAction = _asset.FindAction("Sprint");
         _jumpAction = _asset.FindAction("Jump");
         _scrollAction = _asset.FindAction("ScrollWheel");
+        _keySwitchAction = _asset.FindAction("KeySwitch");
 
         //-----------------------------
         _unlockAction = _asset.FindAction("UnlockAttack");
@@ -77,6 +80,8 @@ public class InputReader : ScriptableObject
 
         _scrollAction.performed += OnScroll;
 
+        _keySwitchAction.started += OnKeySwitch;
+
 
         _attackAction.Enable();
         _interactionAction.Enable();
@@ -85,6 +90,7 @@ public class InputReader : ScriptableObject
         _sprintAction.Enable();
         _jumpAction.Enable();
         _scrollAction.Enable();
+        _keySwitchAction.Enable();
 
         //----------
         _unlockAction.Enable();
@@ -120,6 +126,8 @@ public class InputReader : ScriptableObject
 
         _scrollAction.performed -= OnScroll;
 
+        _keySwitchAction.started -= OnKeySwitch;
+
 
         _attackAction.Disable();
         _interactionAction.Disable();
@@ -128,6 +136,7 @@ public class InputReader : ScriptableObject
         _sprintAction.Disable();
         _jumpAction.Disable();
         _scrollAction.Disable();
+        _keySwitchAction.Disable();
 
         //----------
         _unlockAction.Disable();
@@ -179,6 +188,14 @@ public class InputReader : ScriptableObject
         Vector2 scrollDir = context.ReadValue<Vector2>();
         if (scrollDir == Vector2.zero) return;
         ScrollEvent?.Invoke(scrollDir);        
+    }
+
+    private void OnKeySwitch(InputAction.CallbackContext context)
+    {
+        var control = context.control;
+        int val = int.Parse(control.name);
+
+        KeySwitchEvent?.Invoke(val);
     }
 
     //----------------------------

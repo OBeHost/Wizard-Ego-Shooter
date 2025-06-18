@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CurrentAttackHodler
   m_EditorClassIdentifier: 
   _reader: {fileID: 11400000, guid: c5f053623acb7334caa754516ef2e728, type: 2}
-  AllAttacks:
+  _allAttacks:
   - {fileID: 11400000, guid: 8177c06131a9f454fbe30f6a463b4526, type: 2}
   - {fileID: 11400000, guid: fbe5aa65ee6695748aa2511bb92730dd, type: 2}
   - {fileID: 11400000, guid: 98bd2eba47c44934ca3cc41881cb807a, type: 2}
