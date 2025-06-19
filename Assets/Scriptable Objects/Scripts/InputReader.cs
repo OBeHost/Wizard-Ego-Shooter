@@ -13,7 +13,7 @@ public class InputReader : ScriptableObject
     public event UnityAction<InputAction.CallbackContext> JumpEvent;
     public event UnityAction<InputAction.CallbackContext> SprintEvent;
     public event UnityAction InteractEvent;
-    public event UnityAction AttackEvent;
+    public event UnityAction<InputAction.CallbackContext> AttackEvent;
     public event UnityAction EscapeEvent;
     public event UnityAction<Vector2> ScrollEvent;
     public event UnityAction<int> KeySwitchEvent;
@@ -36,7 +36,7 @@ public class InputReader : ScriptableObject
     private InputAction _unlockAction;
     //-----------------------------
 
-    public bool IsAttacking = false;
+    public bool HoldingAttack = false;
     public bool IsSprinting = false;
 
     private void OnEnable()
@@ -75,6 +75,8 @@ public class InputReader : ScriptableObject
         _interactionAction.started += OnInteract;
 
         _attackAction.started += OnAttack;
+        _attackAction.performed += OnAttack;
+        _attackAction.canceled += OnAttack;
 
         _scrollAction.performed += OnScroll;
 
@@ -119,6 +121,8 @@ public class InputReader : ScriptableObject
         _interactionAction.started -= OnInteract;
 
         _attackAction.started -= OnAttack;
+        _attackAction.performed -= OnAttack;
+        _attackAction.canceled -= OnAttack;
 
         _scrollAction.performed -= OnScroll;
 
@@ -154,9 +158,10 @@ public class InputReader : ScriptableObject
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            IsAttacking = true;
-        } else { IsAttacking = false; }
-        AttackEvent?.Invoke();
+            HoldingAttack = true;
+        } else { HoldingAttack = false; }
+
+        AttackEvent?.Invoke(context);
     }
 
     private void OnLook(InputAction.CallbackContext context)

@@ -13,7 +13,6 @@ public class CurrentAttackHolderSO : ScriptableObject
     public AttackSO CurrentAttack { get; private set; }
 
     private LinkedListNode<AttackSO> _currentNode;
-    private int _currentAttackIndex;
     private int _maxIndex;
 
     private LinkedList<AttackSO> _attacksList;
