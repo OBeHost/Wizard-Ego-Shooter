@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,8 @@ public class PlayerInteractions : MonoBehaviour
     [SerializeField] private CurrentAttackHolderSO _attackHolder;
     [SerializeField] private Transform _projectileInstantiationPoint;
 
-    private bool _holdingAttack = false;
+   
+    private bool _automaticActive = false;
 
     private void OnEnable()
     {
@@ -36,15 +38,57 @@ public class PlayerInteractions : MonoBehaviour
     private void Attack(InputAction.CallbackContext context)
     {
         AttackSO attack = _attackHolder.CurrentAttack;
-        if (context.phase == InputActionPhase.Started)
+        Vector3 lookDirection = _cameraOrientation.forward;
+        
+
+        switch (attack.AttackType)
         {
-            attack.PrepareAttack(_projectileInstantiationPoint);
+            case AttackType.Instant:
+                if (context.phase == InputActionPhase.Started)
+                {
+                    attack.StartInstant(_projectileInstantiationPoint, lookDirection);
+                }
+                break;
+            case AttackType.Chargeable:
+                if (context.phase == InputActionPhase.Started)
+                {
+                    attack.StartChargeable(_projectileInstantiationPoint, lookDirection);
+                }
+                if (context.phase == InputActionPhase.Canceled)
+                {
+                    attack.ReleaseChargeable(lookDirection);
+                }
+                break;
+            case AttackType.Stream:
+                if (context.phase == InputActionPhase.Started)
+                {
+                    attack.StartStream(_projectileInstantiationPoint);
+                } 
+                if (context.phase == InputActionPhase.Canceled)
+                {
+                    attack.CancleStream();
+                }
+                break;
+            case AttackType.Automatic:
+                if (context.phase == InputActionPhase.Started)
+                {
+                    _automaticActive = true;
+                    StartCoroutine(FireAutomatic(_projectileInstantiationPoint, lookDirection, attack));
+                } 
+                if (context.phase == InputActionPhase.Canceled)
+                {
+                    _automaticActive = false;
+                }
+                break;
         }
-        if (context.phase == InputActionPhase.Canceled)
+    }
+
+    private IEnumerator FireAutomatic(Transform instPoint, Vector3 shootDirection, AttackSO attack)
+    {
+        while (_automaticActive)
         {
-            print("Attack released");
-            Vector3 lookDirection = _cameraOrientation.forward;
-            attack.TriggerAttack(_projectileInstantiationPoint, lookDirection);
+            attack.StartInstant(instPoint, shootDirection);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }

@@ -1,19 +1,19 @@
-using NUnit.Framework;
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
-public class FireAttack : BaseAttack
-{    
-    private float _flyTime = 5f;
+public class InstantAttack : BaseAttack
+{
+
     private bool _hasLaunched = false;
+    private float _flyTime = 5f;
+
 
     private void Update()
     {
         if (_hasLaunched)
         {
             _flyTime -= Time.deltaTime;
-            if (_flyTime <= 0 ) Destroy(gameObject);
+            if (_flyTime <= 0) Destroy(gameObject);
         }
     }
 
@@ -36,32 +36,29 @@ public class FireAttack : BaseAttack
 
     public override void LaunchAttack(Vector3 direction)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public override void ChargeAttack(Transform parent)
-    {
-        throw new System.NotImplementedException();
+        Debug.Log("Instantly launched attack");
+        InitializeRB();
+        _rb.AddForce(direction * _launchSpeed * 100f, ForceMode.Force);
+        _hasLaunched = true;
     }
 
     public override void CancleAttack()
     {
-        throw new System.NotImplementedException();
+        Debug.Log($"Cannot cancle attack of type {_attackType}");
+    }
+
+    public override void ChargeAttack(Transform parent)
+    {
+        Debug.Log($"Attack of type {_attackType} cannot be charged");
     }
 
     public override void LaunchAutomaticAttack()
     {
-        throw new System.NotImplementedException();
+        Debug.Log($"Attack of type {_attackType} is not automatic fire");
     }
 
     public override void LaunchStream(Transform parent)
     {
         throw new System.NotImplementedException();
     }
-    //public override void LaunchAttack(Vector3 direction)
-    //{
-    //    this.transform.parent = null;
-    //    _rb.AddForce(direction * _launchSpeed * 100f, ForceMode.Force);
-    //    _hasLaunched = true;
-    //}
 }

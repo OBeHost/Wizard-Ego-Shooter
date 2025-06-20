@@ -13,4 +13,13 @@ MonoBehaviour:
   m_Name: IceAttack
   m_EditorClassIdentifier: 
   AttackName: IceAttack
-  unlocked: 0
+  _attackPrefab: {fileID: 5641504209069987464, guid: 25d128cb77d86cd4995902c4138ba79c, type: 3}
+  _attackType: 0
+  _healthDamage: 0
+  _instantDamage: 0
+  _healthDamageDuration: 0
+  _doesSpeedDamage: 0
+  _speedDamage: 0
+  _speedDamageDuration: 0
+  _launchSpeed: 0
+  _useGravity: 0

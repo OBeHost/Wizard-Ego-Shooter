@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: FireAttack
   m_EditorClassIdentifier: 
   AttackName: FireAttack
-  _attackPrefab: {fileID: 8831953380184940795, guid: 18148fc41ddb89a419b38e2c422ded18, type: 3}
+  _attackPrefab: {fileID: 5641504209069987464, guid: 25d128cb77d86cd4995902c4138ba79c, type: 3}
+  AttackType: 0
   _healthDamage: 3
   _instantDamage: 1
   _healthDamageDuration: 0
