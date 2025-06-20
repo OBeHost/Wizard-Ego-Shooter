@@ -6,13 +6,13 @@ public class UIHandler : MonoBehaviour
 
     #region Current Attack Display
     [SerializeField] private TextMeshProUGUI _currentAttackDisplay;
-    [SerializeField] private CurrentAttackHolderSO _attackHolder;
+    [SerializeField] private AbilityHolderSO _abilityHolder;
     #endregion
 
 
     private void Update()
     {
-        _currentAttackDisplay.text = $"Current Attack: {_attackHolder.CurrentAttack.AttackName}";
+        _currentAttackDisplay.text = $"Current Attack: {_abilityHolder.CurrentAbility.AbilityName}";
     }
 
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +9,7 @@ public class PlayerInteractions : MonoBehaviour
     [SerializeField] private Transform _cameraOrientation;
 
     [Header("Attacking")]
-    [SerializeField] private CurrentAttackHolderSO _attackHolder;
+    [SerializeField] private AbilityHolderSO _abilityHolder;
     [SerializeField] private Transform _projectileInstantiationPoint;
 
    
@@ -26,9 +27,11 @@ public class PlayerInteractions : MonoBehaviour
 
     private void Attack(InputAction.CallbackContext context)
     {
-        AttackSO attack = _attackHolder.CurrentAttack;
+        AbilityBaseSO ability = _abilityHolder.CurrentAbility;
         Vector3 lookDirection = _cameraOrientation.forward;
-        
+
+        AttackSO attack = ability as AttackSO;
+        if (attack == null) return;
 
         switch (attack.AttackType)
         {
@@ -52,7 +55,7 @@ public class PlayerInteractions : MonoBehaviour
                 if (context.phase == InputActionPhase.Started)
                 {
                     attack.StartStream(_projectileInstantiationPoint);
-                } 
+                }
                 if (context.phase == InputActionPhase.Canceled)
                 {
                     attack.CancleStream();
@@ -63,7 +66,7 @@ public class PlayerInteractions : MonoBehaviour
                 {
                     _automaticActive = true;
                     StartCoroutine(FireAutomatic(_projectileInstantiationPoint, lookDirection, attack));
-                } 
+                }
                 if (context.phase == InputActionPhase.Canceled)
                 {
                     _automaticActive = false;

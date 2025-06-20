@@ -1735,7 +1735,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _reader: {fileID: 11400000, guid: c5f053623acb7334caa754516ef2e728, type: 2}
   _cameraOrientation: {fileID: 307057253}
-  _attackHolder: {fileID: 11400000, guid: ff31513b4eb58944b80d1202bd04bcc6, type: 2}
+  _abilityHolder: {fileID: 11400000, guid: 9d7a240a197394b4d8fe28b608c9430d, type: 2}
   _projectileInstantiationPoint: {fileID: 839565952}
 --- !u!1001 &679755681
 PrefabInstance:
@@ -2543,7 +2543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentAttackDisplay: {fileID: 1933441041}
-  _attackHolder: {fileID: 11400000, guid: ff31513b4eb58944b80d1202bd04bcc6, type: 2}
+  _abilityHolder: {fileID: 11400000, guid: 9d7a240a197394b4d8fe28b608c9430d, type: 2}
 --- !u!4 &1064152081
 Transform:
   m_ObjectHideFlags: 0

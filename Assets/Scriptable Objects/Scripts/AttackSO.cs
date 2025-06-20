@@ -6,9 +6,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "AttackSO", menuName = "Scriptable Objects/AttackSO")]
-public class AttackSO : ScriptableObject
+public class AttackSO : AbilityBaseSO
 {
-    public string AttackName;
+    //public string AttackName;
 
     [SerializeField] private GameObject _attackPrefab;
 
@@ -32,7 +32,7 @@ public class AttackSO : ScriptableObject
 
     public AttackSO()
     {
-        AttackName = "";
+        AbilityName = "";
     }
 
     public void StartInstant(Transform instPoint, Vector3 shootDirection)

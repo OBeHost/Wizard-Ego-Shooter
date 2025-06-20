@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12dab23d13b2a51438cb8eb0d1971f94, type: 3}
   m_Name: ChargeableFire
   m_EditorClassIdentifier: 
-  AttackName: ChargeableFire
+  AbilityName: Chargeable Fire
   _attackPrefab: {fileID: 5641504209069987464, guid: 25d128cb77d86cd4995902c4138ba79c, type: 3}
   AttackType: 1
   _healthDamage: 2
