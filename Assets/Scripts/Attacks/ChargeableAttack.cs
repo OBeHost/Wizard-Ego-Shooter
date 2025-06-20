@@ -31,7 +31,7 @@ public class ChargeableAttack : BaseAttack
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         Explode(transform.position, 4f);
     }

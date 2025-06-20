@@ -16,8 +16,7 @@ public class InstantAttack : BaseAttack
             if (_flyTime <= 0) Destroy(gameObject);
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         Explode(transform.position, 4f);
     }

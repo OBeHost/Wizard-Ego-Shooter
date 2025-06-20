@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -35,20 +37,7 @@ public class AttackSO : ScriptableObject
 
     public void StartInstant(Transform instPoint, Vector3 shootDirection)
     {
-        _attackInstance = Instantiate(_attackPrefab, instPoint.position, instPoint.rotation);
-
-        _attackComponent = _attackInstance.AddComponent<InstantAttack>();
-
-        _attackComponent.Init(
-                AttackType,
-                _healthDamage,
-                _instantDamage,
-                _healthDamageDuration,
-                _doesSpeedDamage,
-                _speedDamage,
-                _speedDamageDuration,
-                _launchSpeed,
-                _useGravity);
+        InitializeAttack<InstantAttack>(instPoint);
 
         _attackComponent.LaunchAttack(shootDirection);
     }
@@ -57,18 +46,7 @@ public class AttackSO : ScriptableObject
     {
         if (_attackInstance == null)
         {
-            _attackInstance = Instantiate(_attackPrefab, instPoint.position, instPoint.rotation);
-            _attackComponent = _attackInstance.AddComponent<ChargeableAttack>();
-            _attackComponent.Init(
-                    AttackType,
-                    _healthDamage,
-                    _instantDamage,
-                    _healthDamageDuration,
-                    _doesSpeedDamage,
-                    _speedDamage,
-                    _speedDamageDuration,
-                    _launchSpeed,
-                    _useGravity);
+            InitializeAttack<ChargeableAttack>(instPoint);
         }
 
 
@@ -80,24 +58,15 @@ public class AttackSO : ScriptableObject
         if (_attackComponent == null) return;
 
         _attackComponent.LaunchAttack(shootDirection);
+        _attackInstance = null;
+        _attackComponent = null;
     }
 
     public void StartStream(Transform instPoint)
     {
         if (_attackInstance == null)
         {
-            _attackInstance = Instantiate(_attackPrefab, instPoint.position, instPoint.rotation);
-            _attackComponent = _attackInstance.AddComponent<StreamAttack>();
-            _attackComponent.Init(
-                    AttackType,
-                    _healthDamage,
-                    _instantDamage,
-                    _healthDamageDuration,
-                    _doesSpeedDamage,
-                    _speedDamage,
-                    _speedDamageDuration,
-                    _launchSpeed,
-                    _useGravity);
+            InitializeAttack<StreamAttack>(instPoint);
         }
 
         _attackComponent.LaunchStream(instPoint);
@@ -110,30 +79,12 @@ public class AttackSO : ScriptableObject
         _attackComponent.CancleAttack();
     }
 
-    public void StartAutomatic(Transform instPoint, Vector3 shootDirection)
-    {
-
-    }
-
-
-    public void CancleAutomatic()
-    {
-        _automaticActive = false;
-    }
-
-    public void PrepareAttack(Transform instPoint)
+    private void InitializeAttack<T>(Transform instPoint) where T : BaseAttack
     {
         _attackInstance = Instantiate(_attackPrefab, instPoint.position, instPoint.rotation);
-        BaseAttack attack = _attackInstance.GetComponent<BaseAttack>();
-        attack.SetParent(instPoint);
-    }
+        _attackComponent = _attackInstance.AddComponent<T>();
 
-    public void TriggerAttack(Transform instPoint, Vector3 shootDirection)
-    {
-        //_attackInstance = Instantiate(_attackPrefab, instPoint.position, instPoint.rotation);
-        BaseAttack attack = _attackInstance.GetComponent<BaseAttack>();
-
-        attack.Init(
+        _attackComponent.Init(
                 AttackType,
                 _healthDamage,
                 _instantDamage,
@@ -143,10 +94,8 @@ public class AttackSO : ScriptableObject
                 _speedDamageDuration,
                 _launchSpeed,
                 _useGravity);
-
-
-        attack.LaunchAttack(shootDirection);
     }
+
 }
 
 public enum AttackType

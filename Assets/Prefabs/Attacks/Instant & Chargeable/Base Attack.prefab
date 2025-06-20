@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5791359876183449354}
   - component: {fileID: 8138821860034286083}
   - component: {fileID: 7577569017179494911}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Base Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,9 +100,9 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

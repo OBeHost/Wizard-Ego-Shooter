@@ -24,17 +24,6 @@ public class PlayerInteractions : MonoBehaviour
         _reader.AttackEvent -= Attack;
     }
 
-    private void Update()
-    {
-        if (_reader.HoldingAttack)
-        {
-            
-        }
-    }
-
-
-
-
     private void Attack(InputAction.CallbackContext context)
     {
         AttackSO attack = _attackHolder.CurrentAttack;

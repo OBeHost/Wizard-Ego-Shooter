@@ -15,11 +15,11 @@ MonoBehaviour:
   AttackName: AutomaticFire
   _attackPrefab: {fileID: 5641504209069987464, guid: 25d128cb77d86cd4995902c4138ba79c, type: 3}
   AttackType: 3
-  _healthDamage: 0
-  _instantDamage: 0
+  _healthDamage: 1
+  _instantDamage: 1
   _healthDamageDuration: 0
   _doesSpeedDamage: 0
   _speedDamage: 0
   _speedDamageDuration: 0
-  _launchSpeed: 0
+  _launchSpeed: 15
   _useGravity: 0
