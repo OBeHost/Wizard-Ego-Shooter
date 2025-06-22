@@ -96,6 +96,11 @@ public class AttackSO : AbilityBaseSO
                 _useGravity);
     }
 
+    public override void TriggerAbility(InputAction.CallbackContext context)
+    {
+        // TODO: Implement so that the attack SO can handle the logic for spawning and moving projectile on its own
+        throw new System.NotImplementedException();
+    }
 }
 
 public enum AttackType

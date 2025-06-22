@@ -30,6 +30,8 @@ public class PlayerInteractions : MonoBehaviour
         AbilityBaseSO ability = _abilityHolder.CurrentAbility;
         Vector3 lookDirection = _cameraOrientation.forward;
 
+        //ability.TriggerAbility(context);
+
         AttackSO attack = ability as AttackSO;
         if (attack == null) return;
 

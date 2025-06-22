@@ -4,7 +4,7 @@ using UnityEngine;
 public class UIHandler : MonoBehaviour
 {
 
-    #region Current Attack Display
+    #region Current Ability Display
     [SerializeField] private TextMeshProUGUI _currentAttackDisplay;
     [SerializeField] private AbilityHolderSO _abilityHolder;
     #endregion
