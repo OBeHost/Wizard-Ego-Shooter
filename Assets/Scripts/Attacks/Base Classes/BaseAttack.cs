@@ -87,6 +87,8 @@ public abstract class BaseAttack : MonoBehaviour
         }
     }
 
-    public abstract void LaunchAttack(Vector3 direction = default, Transform parent = null);
+    public abstract void OnStarted();
+    public abstract void OnPerformed();
+    public abstract void OnCanceled();
 
 }

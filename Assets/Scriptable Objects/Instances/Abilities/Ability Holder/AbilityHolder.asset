@@ -14,10 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _reader: {fileID: 11400000, guid: c5f053623acb7334caa754516ef2e728, type: 2}
   _allAbilities:
-  - {fileID: 11400000, guid: 8177c06131a9f454fbe30f6a463b4526, type: 2}
-  - {fileID: 11400000, guid: d259b36269afc5340b2b3f3254a9ea41, type: 2}
-  - {fileID: 11400000, guid: ba6695711f338384fbdea2f299aaebbc, type: 2}
-  - {fileID: 11400000, guid: 21bc2091ed8d80e4382b8145819b44b0, type: 2}
-  - {fileID: 11400000, guid: fbe5aa65ee6695748aa2511bb92730dd, type: 2}
-  - {fileID: 11400000, guid: 21953b09a49f1aa49894ac8e7c76c7ec, type: 2}
-  - {fileID: 11400000, guid: 98bd2eba47c44934ca3cc41881cb807a, type: 2}
+  - {fileID: 11400000, guid: 25013a7c95ee1994a87dabc26288aade, type: 2}
+  - {fileID: 11400000, guid: bc9b83b65bdbe454d9deaaaa03a297f0, type: 2}
+  - {fileID: 11400000, guid: f800435448511de4d934be939ee93604, type: 2}
+  - {fileID: 11400000, guid: 8f9f1c6ec3578f94abe43fdd6343875d, type: 2}

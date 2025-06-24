@@ -43,6 +43,17 @@ public class PlayerInteractions : MonoBehaviour
     {
         AbilityBaseSO ability = _abilityHolder.CurrentAbility;
 
-        ability.TriggerAbility(context);
+        switch (context.phase)
+        {
+            case InputActionPhase.Started:
+                ability.OnStarted();
+                break;
+            case InputActionPhase.Performed:
+                ability.OnPerformed();
+                break;
+            case InputActionPhase.Canceled:;
+                ability.OnCanceled();
+                break;
+        }
     }
 }

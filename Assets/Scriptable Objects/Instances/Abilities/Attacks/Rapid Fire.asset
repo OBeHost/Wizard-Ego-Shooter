@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12dab23d13b2a51438cb8eb0d1971f94, type: 3}
-  m_Name: IceStream
+  m_Name: Rapid Fire
   m_EditorClassIdentifier: 
-  AbilityName: Ice Stream
+  AbilityName: Rapid Fire
   _attackPrefab: {fileID: 5641504209069987464, guid: 25d128cb77d86cd4995902c4138ba79c, type: 3}
   _playerWorldInfo: {fileID: 11400000, guid: 70994b217ff30494fa9393fc346cdadc, type: 2}
-  AttackType: 0
-  _healthDamage: 0
+  AttackType: 3
+  _healthDamage: 1
   _instantDamage: 0
   _healthDamageDuration: 0
-  _damageRadius: 0
+  _damageRadius: 1
   _doesSpeedDamage: 0
   _speedDamage: 0
   _speedDamageDuration: 0
-  _launchSpeed: 0
-  _flyTime: 4
+  _launchSpeed: 50
+  _flyTime: 5
   _useGravity: 0
+  _intervalreset: 0.5
+  _chargeThreshold: 1
+  _rapidFireSpeed: 0.1
