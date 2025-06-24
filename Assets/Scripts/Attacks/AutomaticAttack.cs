@@ -1,30 +1,22 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class AutomaticAttack : BaseAttack
 {
-    public override void LaunchAutomaticAttack()
+
+    private bool _automaticActive = false;
+
+
+    private void Update()
     {
-        Debug.Log("Automatically firing attack");
+        CalculateFlyTime();
     }
 
-    public override void CancleAttack()
+    public override void LaunchAttack(Vector3 direction, Transform parent = null)
     {
-        Debug.Log("Canceling automatic attack");
-    }
-
-    public override void ChargeAttack(Transform parent)
-    {
-        Debug.Log($"Attack of type {_attackType} cannot be charged");
-    }
-
-    public override void LaunchAttack(Vector3 direction)
-    {
-        Debug.Log($"Attack of type {_attackType} cannot be instantly launched");
-    }
-
-    public override void LaunchStream(Transform parent)
-    {
-        throw new System.NotImplementedException();
+        InitializeRB();
+        _rb.AddForce(direction * _launchSpeed * 100f, ForceMode.Force);
+        _hasLaunched = true;
     }
 }

@@ -9,9 +9,6 @@ public class ChargeableAttack : BaseAttack
     private bool _isCharging = false;
     private bool _isCharged = false;
 
-    private bool _hasLaunched = false;
-    private float _flyTime = 5f;
-
     private void Update()
     {
         if (_isCharging)
@@ -24,31 +21,10 @@ public class ChargeableAttack : BaseAttack
             _isCharged = true;
         }
 
-        if (_hasLaunched)
-        {
-            _flyTime -= Time.deltaTime;
-            if (_flyTime <= 0) Destroy(gameObject);
-        }
+        CalculateFlyTime();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Explode(transform.position, 4f);
-    }
-
-
-    private void Explode(Vector3 center, float radius)
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
-        foreach (Collider collider in hitColliders)
-        {
-            if (collider.GetComponent<IDamageable>() == null) continue;
-            collider.GetComponent<IDamageable>().InflictDamage(_healthDamage);
-        }
-        Destroy(gameObject);
-    }
-
-    public override void ChargeAttack(Transform parent)
+    public void ChargeAttack(Transform parent)
     {
         Debug.Log("Charging attack");
         this.gameObject.SetActive(true);
@@ -57,7 +33,7 @@ public class ChargeableAttack : BaseAttack
 
     }
 
-    public override void CancleAttack()
+    public void CancleAttack()
     {
         Debug.Log("Canceled because attack was not charged enough");
         this.gameObject.SetActive(false);
@@ -65,7 +41,7 @@ public class ChargeableAttack : BaseAttack
     }
 
 
-    public override void LaunchAttack(Vector3 direction)
+    public override void LaunchAttack(Vector3 direction, Transform parent = null)
     {
         _isCharging = false;
         if (!_isCharged)
@@ -79,13 +55,5 @@ public class ChargeableAttack : BaseAttack
         _hasLaunched = true;
     }
 
-    public override void LaunchAutomaticAttack()
-    {
-        Debug.Log($"Attack of type {_attackType} is not automatic fire");
-    }
 
-    public override void LaunchStream(Transform parent)
-    {
-        throw new System.NotImplementedException();
-    }
 }

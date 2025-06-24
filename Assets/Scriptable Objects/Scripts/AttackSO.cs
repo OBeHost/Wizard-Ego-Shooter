@@ -1,9 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "AttackSO", menuName = "Scriptable Objects/AttackSO")]
 public class AttackSO : AbilityBaseSO
@@ -11,6 +14,9 @@ public class AttackSO : AbilityBaseSO
     //public string AttackName;
 
     [SerializeField] private GameObject _attackPrefab;
+
+
+    [SerializeField] private PlayerWorldInfo _playerWorldInfo;
 
     private BaseAttack _attackComponent;
     private GameObject _attackInstance;
@@ -20,15 +26,18 @@ public class AttackSO : AbilityBaseSO
     [SerializeField] private float _healthDamage;
     [SerializeField] private bool _instantDamage;
     [SerializeField] private float _healthDamageDuration;
+    [SerializeField] private float _damageRadius = 1f;
 
     [SerializeField] private bool _doesSpeedDamage;
     [SerializeField] private float _speedDamage;
     [SerializeField] private float _speedDamageDuration;
 
     [SerializeField] private float _launchSpeed;
+    [SerializeField] private float _flyTime;
     [SerializeField] private bool _useGravity;
 
     private bool _automaticActive = false;
+    private float _timer = 0.1f;
 
     public AttackSO()
     {
@@ -37,20 +46,19 @@ public class AttackSO : AbilityBaseSO
 
     public void StartInstant(Transform instPoint, Vector3 shootDirection)
     {
-        InitializeAttack<InstantAttack>(instPoint);
-
-        _attackComponent.LaunchAttack(shootDirection);
+        InstantAttack attackComponent = InitializeAttack<InstantAttack>(instPoint);
+        attackComponent.LaunchAttack(shootDirection);
     }
 
     public void StartChargeable(Transform instPoint, Vector3 shootDirection)
     {
-        if (_attackInstance == null)
-        {
-            InitializeAttack<ChargeableAttack>(instPoint);
-        }
+        if (_attackInstance != null) return;
+
+        ChargeableAttack attackComponent = InitializeAttack<ChargeableAttack>(instPoint);
+        _attackComponent = attackComponent;
 
 
-        _attackComponent.ChargeAttack(instPoint);
+        attackComponent.ChargeAttack(instPoint);
     }
 
     public void ReleaseChargeable(Vector3 shootDirection)
@@ -66,40 +74,114 @@ public class AttackSO : AbilityBaseSO
     {
         if (_attackInstance == null)
         {
-            InitializeAttack<StreamAttack>(instPoint);
+            StreamAttack attackComponent = InitializeAttack<StreamAttack>(instPoint);
+            _attackComponent = attackComponent;
         }
-
-        _attackComponent.LaunchStream(instPoint);
+        _attackComponent.LaunchAttack(Vector3.zero, instPoint);
     }
 
     public void CancleStream()
     {
         if (_attackComponent == null) return;
 
-        _attackComponent.CancleAttack();
+        StreamAttack attackComponent = _attackInstance.GetComponent<StreamAttack>();
+        attackComponent.CancleAttack();
     }
 
-    private void InitializeAttack<T>(Transform instPoint) where T : BaseAttack
+
+
+    private T InitializeAttack<T>(Transform instPoint) where T : BaseAttack
     {
         _attackInstance = Instantiate(_attackPrefab, instPoint.position, instPoint.rotation);
-        _attackComponent = _attackInstance.AddComponent<T>();
+        T attackComponent = _attackInstance.AddComponent<T>();
 
-        _attackComponent.Init(
+        attackComponent.Init(
                 AttackType,
                 _healthDamage,
                 _instantDamage,
                 _healthDamageDuration,
+                _damageRadius,
                 _doesSpeedDamage,
                 _speedDamage,
                 _speedDamageDuration,
                 _launchSpeed,
+                _flyTime,
                 _useGravity);
+
+        return attackComponent as T;
+        
+    }
+
+    private IEnumerator FireAutomatic(Transform instPoint)
+    {
+        while (_automaticActive)
+        {
+            StartInstant(instPoint, _playerWorldInfo.PlayerCamOrientation);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     public override void TriggerAbility(InputAction.CallbackContext context)
     {
         // TODO: Implement so that the attack SO can handle the logic for spawning and moving projectile on its own
-        throw new System.NotImplementedException();
+
+        switch (AttackType)
+        {
+            case AttackType.Instant:
+                if (context.phase == InputActionPhase.Started)
+                {
+                    StartInstant(_playerWorldInfo.ProjectileInstantiationPoint, _playerWorldInfo.PlayerCamOrientation);
+                }
+                break;
+            case AttackType.Chargeable:
+                if (context.phase == InputActionPhase.Started)
+                {
+                    StartChargeable(_playerWorldInfo.ProjectileInstantiationPoint, _playerWorldInfo.PlayerCamOrientation);
+                }
+                if (context.phase == InputActionPhase.Canceled)
+                {
+                    ReleaseChargeable(_playerWorldInfo.PlayerCamOrientation);
+                }
+                break;
+            case AttackType.Stream:
+                if (context.phase == InputActionPhase.Started)
+                {
+                    StartStream(_playerWorldInfo.ProjectileInstantiationPoint);
+                }
+                if (context.phase == InputActionPhase.Canceled)
+                {
+                    CancleStream();
+                }
+                break;
+            case AttackType.Automatic:
+                if (context.phase == InputActionPhase.Started)
+                {
+                    _automaticActive = true;
+                    CoroutineRunner.Instance.RunCoroutine(FireAutomatic(_playerWorldInfo.ProjectileInstantiationPoint));
+                }
+                if (context.phase == InputActionPhase.Canceled)
+                {
+                    _automaticActive = false;
+                }
+                break;
+                default:
+                    break;
+        }
+
+
+        //Depending on the phase 
+        switch (context.phase)
+        {
+            case InputActionPhase.Started:
+                //attackComponent.OnStarted()
+                break;
+            case InputActionPhase.Performed:
+                //attackComponent.OnPerformed()
+                break;
+            case InputActionPhase.Canceled:
+                //attackComponent.OnCanceled()
+                break;
+        }
     }
 }
 

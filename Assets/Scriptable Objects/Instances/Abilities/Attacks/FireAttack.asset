@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityName: Fire Attack
   _attackPrefab: {fileID: 5641504209069987464, guid: 25d128cb77d86cd4995902c4138ba79c, type: 3}
+  _playerWorldInfo: {fileID: 11400000, guid: 70994b217ff30494fa9393fc346cdadc, type: 2}
   AttackType: 0
   _healthDamage: 3
   _instantDamage: 1
   _healthDamageDuration: 0
+  _damageRadius: 2
   _doesSpeedDamage: 0
   _speedDamage: 0
   _speedDamageDuration: 0
-  _launchSpeed: 15
+  _launchSpeed: 50
+  _flyTime: 4
   _useGravity: 0
