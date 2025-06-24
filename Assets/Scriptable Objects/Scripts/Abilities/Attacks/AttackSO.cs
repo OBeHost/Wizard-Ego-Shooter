@@ -12,14 +12,10 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(fileName = "AttackSO", menuName = "Scriptable Objects/AttackSO")]
 public class AttackSO : AbilityBaseSO
 {
-    //public string AttackName;
-
     [SerializeField] private GameObject _attackPrefab;
-
 
     [SerializeField] private PlayerWorldInfo _playerWorldInfo;
 
-    private BaseAttack _attackComponent;
     private GameObject _attackInstance;
 
     [Header("Values for initializing attack parameters")]
@@ -48,62 +44,6 @@ public class AttackSO : AbilityBaseSO
     {
         AbilityName = "";
     }
-
-
-
-    private T InitializeAttack<T>(Transform instPoint) where T : BaseAttack
-    {
-        _attackInstance = Instantiate(_attackPrefab, instPoint.position, instPoint.rotation);
-        T attackComponent = _attackInstance.AddComponent<T>();
-
-        attackComponent.Init(
-                AttackType,
-                _healthDamage,
-                _instantDamage,
-                _healthDamageDuration,
-                _damageRadius,
-                _doesSpeedDamage,
-                _speedDamage,
-                _speedDamageDuration,
-                _launchSpeed,
-                _flyTime,
-                _useGravity);
-
-        return attackComponent as T;
-        
-    }
-
-    private IEnumerator FireAutomatic(Transform instPoint)
-    {
-        while (_automaticActive)
-        {
-            InstantiateProjectile(_playerWorldInfo.ProjectileInstantiationPoint);
-            LaunchProjectile(_playerWorldInfo.PlayerCamOrientation);
-            yield return new WaitForSeconds(_rapidFireSpeed);
-        }
-    }
-
-    public override void TriggerAbility(InputAction.CallbackContext context)
-    {
-        // TODO: Implement so that the attack SO can handle the logic for spawning and moving projectile on its own
-
-
-        //Depending on the phase 
-        switch (context.phase)
-        {
-            case InputActionPhase.Started:
-                _attackComponent = InitializeAttack<BaseAttack>(_playerWorldInfo.ProjectileInstantiationPoint);
-                break;
-            case InputActionPhase.Performed:
-                //attackComponent.OnPerformed()
-                break;
-            case InputActionPhase.Canceled:
-                //attackComponent.OnCanceled()
-                break;
-        }
-    }
-
-
 
     public override void OnStarted()
     {
@@ -186,8 +126,13 @@ public class AttackSO : AbilityBaseSO
     {
         if (_attackInstance == null) return;
         _attackInstance.transform.parent = null;
-        ExplodeableAttack explodeComponent = _attackInstance.AddComponent<ExplodeableAttack>();
-        explodeComponent.Init(_damageRadius, _healthDamage, _flyTime, true);
+        ImpactDamage explodeComponent = _attackInstance.AddComponent<ImpactDamage>();
+        explodeComponent.Init(_damageRadius, 
+                              _healthDamage, 
+                              _flyTime, 
+                              _instantDamage, 
+                              _healthDamageDuration, 
+                              true);
         _attackRb.AddForce(direction * _launchSpeed * 100f, ForceMode.Force);
     }
 
@@ -199,7 +144,7 @@ public class AttackSO : AbilityBaseSO
             return;
         }
         _attackInstance = Instantiate(_attackPrefab, instPoint.position, instPoint.rotation);
-        ContinuousAttack continuousComponent = _attackInstance.AddComponent<ContinuousAttack>();
+        ContinuousDamage continuousComponent = _attackInstance.AddComponent<ContinuousDamage>();
         continuousComponent.Init(_intervalreset, _healthDamage);
 
         if (_attackInstance.transform.parent == null)
@@ -208,6 +153,7 @@ public class AttackSO : AbilityBaseSO
         }
         _attackInstance.gameObject.SetActive(true);
     }
+
     private void CancelContinuous()
     {
         if (_attackInstance == null) return;
@@ -234,6 +180,16 @@ public class AttackSO : AbilityBaseSO
 
         _attackInstance?.gameObject.SetActive(false);
         return false;
+    }
+
+    private IEnumerator FireAutomatic(Transform instPoint)
+    {
+        while (_automaticActive)
+        {
+            InstantiateProjectile(_playerWorldInfo.ProjectileInstantiationPoint);
+            LaunchProjectile(_playerWorldInfo.PlayerCamOrientation);
+            yield return new WaitForSeconds(_rapidFireSpeed);
+        }
     }
 }
 

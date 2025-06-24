@@ -18,13 +18,14 @@ MonoBehaviour:
   AttackType: 0
   _healthDamage: 1
   _instantDamage: 0
-  _healthDamageDuration: 0
-  _damageRadius: 1
+  _healthDamageDuration: 3
+  _damageRadius: 4
   _doesSpeedDamage: 0
   _speedDamage: 0
   _speedDamageDuration: 0
-  _launchSpeed: 50
+  _launchSpeed: 32.5
   _flyTime: 5
   _useGravity: 0
   _intervalreset: 0.5
   _chargeThreshold: 1
+  _rapidFireSpeed: 0.1

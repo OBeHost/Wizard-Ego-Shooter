@@ -97,8 +97,5 @@ public class AbilityHolderSO : ScriptableObject
         _maxIndex++;
         _abilitiesDict[_maxIndex] = newNode;
     }
-    
-
-    //TODO: Maybe it makes more sense to trigger the current attack from here instead of PlayerInteractions
 
 }

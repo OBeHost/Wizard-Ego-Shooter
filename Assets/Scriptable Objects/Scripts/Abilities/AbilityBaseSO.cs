@@ -6,8 +6,6 @@ public abstract class AbilityBaseSO : ScriptableObject
 {
     public string AbilityName;
 
-    public abstract void TriggerAbility(InputAction.CallbackContext context);
-
     public abstract void OnStarted();
     public abstract void OnPerformed();
     public abstract void OnCanceled();

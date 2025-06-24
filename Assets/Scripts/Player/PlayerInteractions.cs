@@ -15,9 +15,6 @@ public class PlayerInteractions : MonoBehaviour
 
     private Vector3 _lookDirection;
 
-   
-    private bool _automaticActive = false;
-
     private void OnEnable()
     {
         _reader.AttackEvent += Attack;

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -5,6 +6,8 @@ public class EnemyStats : MonoBehaviour, IDamageable
 {
     [SerializeField] private TextMeshProUGUI _healthDisplay;
     private ObjectHealth _enemyHealth;
+
+    private bool _receivingLastingDamage = false;
 
     private void Start()
     {
@@ -24,5 +27,16 @@ public class EnemyStats : MonoBehaviour, IDamageable
     public void InflictDamage(float amount)
     {
         _enemyHealth.DeductHealth(amount);
+    }
+
+
+    public void SetReceivingLastingDamage(bool isReceiving)
+    {
+        _receivingLastingDamage = isReceiving;
+    }
+
+    public bool GetReceivingLastingDamage()
+    {
+        return _receivingLastingDamage;
     }
 }

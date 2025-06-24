@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ContinuousAttack : MonoBehaviour
+public class ContinuousDamage : MonoBehaviour
 {
     private float _damageInterval = 0f;
     private float _intervalReset = 0.5f;
