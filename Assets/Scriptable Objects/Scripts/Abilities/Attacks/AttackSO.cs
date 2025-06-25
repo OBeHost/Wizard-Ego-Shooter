@@ -134,6 +134,7 @@ public class AttackSO : AbilityBaseSO
                               _healthDamageDuration, 
                               true);
         _attackRb.AddForce(direction * _launchSpeed * 100f, ForceMode.Force);
+        _attackInstance = null;
     }
 
     private void LaunchContinuous(Transform instPoint)
