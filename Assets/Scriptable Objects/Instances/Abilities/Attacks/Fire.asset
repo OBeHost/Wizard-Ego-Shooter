@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fire
   m_EditorClassIdentifier: 
   AbilityName: Fire
-  _attackPrefab: {fileID: 5641504209069987464, guid: 25d128cb77d86cd4995902c4138ba79c, type: 3}
+  _attackPrefab: {fileID: 2972392977303283589, guid: 11c9a5d587e034e43a68d4ebfb901206, type: 3}
   _playerWorldInfo: {fileID: 11400000, guid: 70994b217ff30494fa9393fc346cdadc, type: 2}
   AttackType: 0
   _healthDamage: 1
@@ -23,9 +23,10 @@ MonoBehaviour:
   _doesSpeedDamage: 0
   _speedDamage: 0
   _speedDamageDuration: 0
-  _launchSpeed: 100
+  _launchSpeed: 50
   _flyTime: 5
   _useGravity: 0
   _intervalreset: 0.5
   _chargeThreshold: 1
   _rapidFireSpeed: 0.1
+  _impactParticle: {fileID: 7607841488155974848, guid: ba3421ba5a7c1654cbf175aa232f24b8, type: 3}

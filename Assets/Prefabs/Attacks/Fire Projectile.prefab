@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6690428580528169472}
   - component: {fileID: 332937664980914857}
   - component: {fileID: 4661039444617554970}
-  - component: {fileID: 1029002170064078654}
   m_Layer: 0
   m_Name: Fire Projectile
   m_TagString: Untagged
@@ -109,15 +108,3 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1029002170064078654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8831953380184940795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10c3ee937e5d4ab4086aeef9b74b4e75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

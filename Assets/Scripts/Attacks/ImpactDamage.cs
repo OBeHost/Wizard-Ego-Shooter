@@ -14,13 +14,17 @@ public class ImpactDamage : MonoBehaviour
 
     private bool _impacted = false;
     private float _timer = 0f;
+
+    private ParticleSystem _impactParticle;
+    private ParticleSystem _particleInstance;
     public void Init(
                      float damageRadius,
                      float healthDamage,
                      float flyTime,
                      bool instantDamage,
                      float damageDuration,
-                     bool hasLaunched)
+                     bool hasLaunched,
+                     ParticleSystem impactParticle)
     {
         this._damageRadius = damageRadius;
         this._healthDamage = healthDamage;
@@ -28,6 +32,7 @@ public class ImpactDamage : MonoBehaviour
         this._instantDamage = instantDamage;
         this._damageDuration = damageDuration;
         this._hasLaunched = hasLaunched;
+        this._impactParticle = impactParticle;
     }
 
     private void Update()
@@ -46,7 +51,7 @@ public class ImpactDamage : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(center, radius);
 
         //Make the projectile invisible and disable everything before deciding what to do
-        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        //this.gameObject.GetComponent<MeshRenderer>().enabled = false;
         this.gameObject.GetComponent<SphereCollider>().enabled = false;
         this.gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
 
@@ -54,6 +59,12 @@ public class ImpactDamage : MonoBehaviour
         {
             if (collider.GetComponent<PlayerStats>() != null) continue;
             if (collider.GetComponent<IDamageable>() == null) continue;
+
+            //Particles for burning enemies
+            //TODO: Make particle a child of the collider and also implement basic impact particle spawning
+            Vector3 particleSpawnPos = new Vector3(collider.transform.position.x, 0f, collider.transform.position.z);
+            _particleInstance = Instantiate(_impactParticle, particleSpawnPos, Quaternion.identity);
+            _particleInstance.Play();
 
             switch (_instantDamage)
             {

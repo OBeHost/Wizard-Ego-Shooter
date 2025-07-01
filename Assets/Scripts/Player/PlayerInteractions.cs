@@ -28,6 +28,7 @@ public class PlayerInteractions : MonoBehaviour
     private void Awake()
     {
         _playerWorldInfo.UpdatePlayerTransform(_projectileInstantiationPoint);
+        _playerWorldInfo.SetPlayerStatsInstance(this.GetComponent<PlayerStats>());
     }
 
     private void Update()

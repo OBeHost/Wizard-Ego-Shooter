@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     public void InflictDamage(float amount)
     {
+        Debug.Log("Damaged Player");
         _playerHealth.DeductHealth(amount);
     }
 

@@ -36,6 +36,8 @@ public class AttackSO : AbilityBaseSO
     [SerializeField] private float _chargeThreshold = 1f;
     [SerializeField] private float _rapidFireSpeed = 0.1f;
 
+    [SerializeField] private ParticleSystem _impactParticle;
+
     private bool _automaticActive = false;
     private Rigidbody _attackRb;
     private float _chargingTimer;
@@ -132,7 +134,8 @@ public class AttackSO : AbilityBaseSO
                               _flyTime, 
                               _instantDamage, 
                               _healthDamageDuration, 
-                              true);
+                              true,
+                              _impactParticle);
         _attackRb.AddForce(direction * _launchSpeed * 100f, ForceMode.Force);
         _attackInstance = null;
     }

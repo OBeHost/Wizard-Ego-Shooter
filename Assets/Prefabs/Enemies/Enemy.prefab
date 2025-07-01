@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2506644931460543523}
   - component: {fileID: 4247992355239149804}
   - component: {fileID: -4894158196428508809}
+  - component: {fileID: -7922128645267093152}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -139,6 +140,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthDisplay: {fileID: 8656226833187474823}
+--- !u!114 &-7922128645267093152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413721980720088801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e5b6227b3a14d43a14a7f1d204f652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackTimer: 0
+  AttackIntervalTime: 5
+  IsInAttackRange: 0
+  _playerWorldInfo: {fileID: 11400000, guid: 70994b217ff30494fa9393fc346cdadc, type: 2}
+  _playerFollowRange: 10
+  _minDistToPlayer: 4
+  _moveSpeed: 1
+  _attackRange: 5
 --- !u!1 &2844505189425649552
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,13 +263,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4906023003201266854}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: -3.109}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7639981816426166074}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -737.43695, y: -343}
