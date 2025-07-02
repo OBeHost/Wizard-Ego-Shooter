@@ -18,7 +18,7 @@ public class AIController : MonoBehaviour
 
     private GameObject SpawnEnemy()
     {
-        Vector3 tempSpawnPos = new Vector3(this.transform.position.x, 1f, this.transform.position.z);
+        Vector3 tempSpawnPos = new Vector3(this.transform.position.x, 0.25f, this.transform.position.z);
         return Instantiate(_enemyPrefab, tempSpawnPos, Quaternion.identity);
     }
     #endregion
@@ -39,7 +39,7 @@ public class AIController : MonoBehaviour
     }
     #endregion
 
-    #region Check Player Distance
+    #region Player Distance
     [SerializeField] private Transform _playerTransform;
     [SerializeField] private float _playerFollowRange = 4f;
 
@@ -67,14 +67,9 @@ public class AIController : MonoBehaviour
     }
     #endregion
 
-
-    private void Update()
+    #region Attacking
+    private void TryAttack()
     {
-        float dist = CheckPlayerDistance();
-        MoveEvent?.Invoke(dist);
-        GetPlayerPositionEvent?.Invoke(GetPlayerPosition());
-
-
         foreach (TestEnemyBehaviour e in _enemies)
         {
             float timeSinceAttack = Time.time - e.AttackTimer;
@@ -84,5 +79,14 @@ public class AIController : MonoBehaviour
             }
 
         }
+    }
+    #endregion
+
+    private void Update()
+    {
+        float dist = CheckPlayerDistance();
+        MoveEvent?.Invoke(dist);
+        GetPlayerPositionEvent?.Invoke(GetPlayerPosition());
+        TryAttack();
     }
 }

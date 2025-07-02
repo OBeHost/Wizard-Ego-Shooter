@@ -7,22 +7,30 @@ public class TestEnemyBehaviour : MonoBehaviour
     public float AttackIntervalTime = 5f;
     public bool IsInAttackRange = false;
 
-    [SerializeField] private PlayerWorldInfo _playerWorldInfo;
+    private AIController controller;
+
+    #region Movement & Attacking Fields
     [SerializeField] private float _playerFollowRange = 10f;
     [SerializeField] private float _minDistToPlayer = 4f;
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _attackRange = 5f;
+    #endregion
 
-
-    private AIController controller;
+    #region Player related Fields
+    [SerializeField] private PlayerWorldInfo _playerWorldInfo;
     private Vector3 _playerPos;
     private PlayerStats _playerStats;
-    
+    #endregion
+
+    //Booleans for animation
+    public bool IsWalking = false;
 
 
+    #region Set Up & Clean Up
     public void Subscribe(AIController controller)
     {
         this.controller = controller;
+
         controller.MoveEvent += Move;
         controller.GetPlayerPositionEvent += GetPlayerPosition;
     }
@@ -42,7 +50,9 @@ public class TestEnemyBehaviour : MonoBehaviour
     {
         Unsubscribe();
     }
+    #endregion
 
+    #region Movement
     //TODO: Clean up this behaviour 
     public void Move(float dist)
     {
@@ -65,26 +75,29 @@ public class TestEnemyBehaviour : MonoBehaviour
         if (dist <= _playerFollowRange && distToPlayer >= _minDistToPlayer)
         {
             transform.Translate(moveDir.normalized * _moveSpeed * Time.deltaTime, Space.World);
-        }
-
-        if (distToPlayer <= _attackRange)
-        {
-            IsInAttackRange = true;
+            IsWalking = true;
         } else
         {
-            IsInAttackRange = false;
+            IsWalking = false;
         }
+
+        IsInAttackRange = distToPlayer <= _attackRange ? true : false;
+
     }
     private void GetPlayerPosition(Vector3 pos)
     {
         _playerPos = pos;
     }
+    #endregion
 
+
+    #region Attack
     public void AttackPlayer(float damage)
     {
         AttackTimer = Time.time;
         _playerStats.InflictDamage(damage);
     }
+    #endregion
 
 
 
